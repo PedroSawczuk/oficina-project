@@ -1,4 +1,3 @@
-import uuid
 from django.db import models
 from django.core.validators import MinValueValidator, RegexValidator
 from django.utils import timezone
@@ -10,7 +9,7 @@ class Cliente(models.Model):
         ('feminino', 'Feminino'),
     ]
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.AutoField(primary_key=True) 
     nome = models.CharField(max_length=100, blank=False)
     sexo = models.CharField(max_length=9, choices=SEX_CHOICES)
     cpf = models.CharField(max_length=14, unique=True, validators=[
@@ -37,7 +36,7 @@ class Cliente(models.Model):
 
 
 class Fornecedor(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.AutoField(primary_key=True) 
     nome = models.CharField(max_length=100)
     cnpj = models.CharField(max_length=18, unique=True, validators=[
         RegexValidator(regex=r'^\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}$', message='CNPJ deve estar no formato 99.999.999/9999-99')
@@ -62,7 +61,7 @@ class Fornecedor(models.Model):
 
 
 class Marca(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.AutoField(primary_key=True) 
     nome = models.CharField(max_length=255)
 
     def __str__(self):
@@ -70,7 +69,7 @@ class Marca(models.Model):
 
 
 class Produto(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.AutoField(primary_key=True) 
     nome = models.CharField(max_length=255)
     valor_venda = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0)])
     quantidade_estoque = models.PositiveIntegerField()
@@ -86,7 +85,7 @@ class Funcionario(models.Model):
         ('feminino', 'Feminino'),
     ]
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.AutoField(primary_key=True) 
     nome = models.CharField(max_length=100, blank=False)
     sexo = models.CharField(max_length=9, choices=SEX_CHOICES)
     cpf = models.CharField(max_length=14, unique=True, validators=[
@@ -114,7 +113,7 @@ class Funcionario(models.Model):
 
 
 class Cargo(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.AutoField(primary_key=True) 
     nome = models.CharField(max_length=100)
 
     def __str__(self):
@@ -122,7 +121,7 @@ class Cargo(models.Model):
 
 
 class Escolaridade(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.AutoField(primary_key=True) 
     nome = models.CharField(max_length=100)
 
     def __str__(self):
@@ -130,7 +129,7 @@ class Escolaridade(models.Model):
 
 
 class OrdemServico(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.AutoField(primary_key=True) 
     tecnico = models.ForeignKey(Funcionario, on_delete=models.CASCADE)
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     descricao_problema = models.TextField()
@@ -142,7 +141,7 @@ class OrdemServico(models.Model):
 
 
 class ItemOrdemServico(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.AutoField(primary_key=True) 
     ordem_servico = models.ForeignKey(OrdemServico, on_delete=models.CASCADE, related_name='itens')
     produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
     quantidade = models.PositiveIntegerField()
@@ -160,7 +159,7 @@ class ItemOrdemServico(models.Model):
 
 
 class ContaReceber(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.AutoField(primary_key=True) 
     ordem_servico = models.ForeignKey(OrdemServico, on_delete=models.CASCADE)
     valor = models.DecimalField(max_digits=10, decimal_places=2)
 
@@ -169,7 +168,7 @@ class ContaReceber(models.Model):
 
 
 class Empresa(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.AutoField(primary_key=True) 
     nome = models.CharField(max_length=255)
     cnpj = models.CharField(max_length=18, unique=True, validators=[
         RegexValidator(regex=r'^\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}$', message='CNPJ deve estar no formato 99.999.999/9999-99')
