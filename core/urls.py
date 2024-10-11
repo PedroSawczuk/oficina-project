@@ -14,4 +14,19 @@ urlpatterns = [
     path('funcionarios/editar/<int:pk>/', FuncionarioUpdateView.as_view(), name='funcionarioUpdate'),
     path('funcionarios/excluir/<int:pk>/', FuncionarioDeleteView.as_view(), name='funcionarioDelete'),
 
+    path('produtos/', ProdutoListView.as_view(), name='produtoList'),
+    path('produtos/novo/', ProdutoCreateView.as_view(), name='produtoCreate'),
+    path('produtos/editar/<int:pk>/', ProdutoUpdateView.as_view(), name='produtoUpdate'),
+    path('produtos/excluir/<int:pk>/', ProdutoDeleteView.as_view(), name='produtoDelete'),
+
+    path('fornecedores/', FornecedorListView.as_view(), name='fornecedorList'),
+    path('fornecedores/novo/', FornecedorCreateView.as_view(), name='fornecedorCreate'),
+    path('fornecedores/editar/<int:pk>/', FornecedorUpdateView.as_view(), name='fornecedorUpdate'),
+    path('fornecedores/excluir/<int:pk>/', FornecedorDeleteView.as_view(), name='fornecedorDelete'),
+
+    path('marcas/', MarcaListView.as_view(), name='marcaList'),
+    path('marcas/novo/', MarcaCreateView.as_view(), name='marcaCreate'),
+    path('marcas/editar/<int:pk>/', MarcaUpdateView.as_view(), name='marcaUpdate'),
+    path('marcas/excluir/<int:pk>/', MarcaDeleteView.as_view(), name='marcaDelete'),
+
 ]

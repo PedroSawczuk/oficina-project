@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Lista de Marcas{% endblock %}
+
+{% block main %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <h1 class="text-2xl font-bold">Lista de Marcas</h1>
+    <table class="min-w-full mt-4">
+        <thead>
+            <tr>
+                <th class="border px-4 py-2">ID</th>
+                <th class="border px-4 py-2">Nome</th>
+                <th class="border px-4 py-2">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for marca in marcas %}
+            <tr>
+                <td class="border px-4 py-2">{{ marca.id }}</td>
+                <td class="border px-4 py-2">{{ marca.nome }}</td>
+                <td class="border px-4 py-2">
+                    <a href="{% url 'marcaUpdate' marca.id %}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Editar</a>
+                    <a href="{% url 'marcaDelete' marca.id %}" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Excluir</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'marcaCreate' %}" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-4 inline-block">Nova Marca</a>
+</div>
+{% endblock %}

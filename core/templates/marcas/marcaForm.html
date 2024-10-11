@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Cadastrar Marca{% endblock %}
+
+{% block main %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <h1 class="text-2xl font-bold text-center">Cadastrar Marca</h1>
+    <form method="post" class="mt-4">
+        {% csrf_token %}
+        <div class="space-y-4">
+            {% for field in form %}
+            <div class="flex flex-col">
+                <label for="{{ field.id_for_label }}" class="text-sm font-medium text-gray-300">
+                    {{ field.label }} 
+                    {% if field.field.required %}
+                        <span class="text-red-500">*</span>  
+                    {% endif %}
+                </label>
+                <div class="relative">
+                    {{ field }}  
+                    {% if field.help_text %}
+                    <span class="text-xs text-gray-400">{{ field.help_text }}</span>
+                    {% endif %}
+                </div>
+                {% for error in field.errors %}
+                <span class="text-red-500 text-xs">{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Salvar</button>
+    </form>
+    <a href="{% url 'marcaList' %}" class="text-gray-300 hover:text-white mt-4 inline-block">Voltar para lista de Marcas</a>
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Excluir Produto{% endblock %}
+
+{% block main %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <h1 class="text-2xl font-bold">Tem certeza que deseja excluir o produto "{{ object.nome }}"?</h1>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Excluir</button>
+        <a href="{% url 'produtoList' %}" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Cancelar</a>
+    </form>
+</div>
+{% endblock %}
