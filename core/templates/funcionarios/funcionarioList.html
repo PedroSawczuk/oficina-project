@@ -20,11 +20,19 @@
                 <td class="border px-4 py-2">{{ funcionario.id }}</td>
                 <td class="border px-4 py-2">{{ funcionario.nome }}</td>
                 <td class="border px-4 py-2">{{ funcionario.cpf }}</td>
+                <td class="border px-4 py-2">
+                    <a href="{% url 'funcionarioUpdate' funcionario.id %}"
+                        class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Editar</a>
+                    <a href="{% url 'funcionarioDelete' funcionario.id %}"
+                        class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Excluir</a>
+                </td>
 
             </tr>
             {% endfor %}
         </tbody>
     </table>
-    <a href="{% url 'funcionarioCreate' %}" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-4 inline-block">Novo Funcionário</a>
+    <a href="{% url 'funcionarioCreate' %}"
+        class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-4 inline-block">Novo
+        Funcionário</a>
 </div>
 {% endblock %}
