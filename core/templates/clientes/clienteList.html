@@ -1,17 +1,31 @@
 {% extends "base.html" %}
 
-{% block title %}Cadastrar Cliente{% endblock %}
+{% block title %}Lista de Clientes{% endblock %}
 
 {% block main %}
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-    <h1 class="text-2xl font-bold">Cadastrar Cliente</h1>
-    <form method="post" class="mt-4">
-        {% csrf_token %}
-        <div class="space-y-4"> <!-- Para espaçamento entre os campos -->
-            {{ form.as_p|add_class:"w-full" }} <!-- Adiciona classe w-full para todos os campos -->
-        </div>
-        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Salvar</button>
-    </form>
-    <a href="{% url 'clienteList' %}" class="text-gray-300 hover:text-white mt-4 inline-block">Voltar para lista de Clientes</a>
+    <h1 class="text-2xl font-bold">Lista de Clientes</h1>
+    <table class="min-w-full mt-4">
+        <thead>
+            <tr>
+                <th class="border px-4 py-2">ID</th>
+                <th class="border px-4 py-2">Nome</th>
+                <th class="border px-4 py-2">CPF</th>
+                <th class="border px-4 py-2">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cliente in clientes %}
+            <tr>
+                <td class="border px-4 py-2">{{ cliente.id }}</td>
+                <td class="border px-4 py-2">{{ cliente.nome }}</td>
+                <td class="border px-4 py-2">{{ cliente.cpf }}</td>
+                <td class="border px-4 py-2">
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'clienteCreate' %}" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-4 inline-block">Novo Cliente</a>
 </div>
 {% endblock %}

@@ -1,4 +1,3 @@
-<!-- core/templates/base.html -->
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -38,21 +37,20 @@
 
     <script>
         $(document).ready(function() {
-            // Aplica as máscaras nos campos quando existirem
             if ($('#id_cep').length) {
-                $('#id_cep').mask('00000-000'); // Máscara para CEP
+                $('#id_cep').mask('00000-000'); 
             }
             if ($('#id_telefone_fixo').length) {
-                $('#id_telefone_fixo').mask('(00) 0000-0000'); // Máscara para Telefone Fixo
+                $('#id_telefone_fixo').mask('(00) 0000-0000'); 
             }
             if ($('#id_telefone_celular').length) {
-                $('#id_telefone_celular').mask('(00) 00000-0000'); // Máscara para Telefone Celular
+                $('#id_telefone_celular').mask('(00) 00000-0000'); 
             }
             if ($('#id_cpf').length) {
-                $('#id_cpf').mask('000.000.000-00'); // Máscara para CPF
+                $('#id_cpf').mask('000.000.000-00'); 
             }
             if ($('#id_data_nascimento').length) {
-                $('#id_data_nascimento').mask('00/00/0000'); // Máscara para Data de Nascimento
+                $('#id_data_nascimento').mask('00/00/0000'); 
             }
         });
         

@@ -9,7 +9,7 @@ class Cliente(models.Model):
         ('feminino', 'Feminino'),
     ]
 
-    id = models.AutoField(primary_key=True) 
+    id = models.AutoField(primary_key=True)
     nome = models.CharField(max_length=100, blank=False)
     sexo = models.CharField(max_length=9, choices=SEX_CHOICES)
     cpf = models.CharField(max_length=14, unique=True, validators=[
@@ -23,8 +23,9 @@ class Cliente(models.Model):
     ])
     criado = models.DateTimeField(auto_now_add=True)
     telefone_celular = models.CharField(max_length=15, validators=[
-        RegexValidator(regex=r'^\(\d{2}\)\d{5}-\d{4}$', message='Telefone celular deve estar no formato (99)99999-9999')
-    ])
+    RegexValidator(regex=r'^\(\d{2}\)\s?\d{5}-\d{4}$', message='Telefone celular deve estar no formato (99)99999-9999')
+])
+
     telefone_fixo = models.CharField(max_length=14, validators=[
         RegexValidator(regex=r'^\(\d{2}\)\d{4}-\d{4}$', message='Telefone fixo deve estar no formato (99)9999-9999')
     ], blank=True)
@@ -36,7 +37,7 @@ class Cliente(models.Model):
 
 
 class Fornecedor(models.Model):
-    id = models.AutoField(primary_key=True) 
+    id = models.AutoField(primary_key=True)
     nome = models.CharField(max_length=100)
     cnpj = models.CharField(max_length=18, unique=True, validators=[
         RegexValidator(regex=r'^\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}$', message='CNPJ deve estar no formato 99.999.999/9999-99')
@@ -49,8 +50,9 @@ class Fornecedor(models.Model):
     ])
     criado = models.DateTimeField(auto_now_add=True)
     telefone_celular = models.CharField(max_length=15, validators=[
-        RegexValidator(regex=r'^\(\d{2}\)\d{5}-\d{4}$', message='Telefone celular deve estar no formato (99)99999-9999')
-    ])
+    RegexValidator(regex=r'^\(\d{2}\)\s?\d{5}-\d{4}$', message='Telefone celular deve estar no formato (99)99999-9999')
+])
+
     telefone_fixo = models.CharField(max_length=14, validators=[
         RegexValidator(regex=r'^\(\d{2}\)\d{4}-\d{4}$', message='Telefone fixo deve estar no formato (99)9999-9999')
     ], blank=True)
@@ -61,7 +63,7 @@ class Fornecedor(models.Model):
 
 
 class Marca(models.Model):
-    id = models.AutoField(primary_key=True) 
+    id = models.AutoField(primary_key=True)
     nome = models.CharField(max_length=255)
 
     def __str__(self):
@@ -69,7 +71,7 @@ class Marca(models.Model):
 
 
 class Produto(models.Model):
-    id = models.AutoField(primary_key=True) 
+    id = models.AutoField(primary_key=True)
     nome = models.CharField(max_length=255)
     valor_venda = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0)])
     quantidade_estoque = models.PositiveIntegerField()
@@ -85,7 +87,7 @@ class Funcionario(models.Model):
         ('feminino', 'Feminino'),
     ]
 
-    id = models.AutoField(primary_key=True) 
+    id = models.AutoField(primary_key=True)
     nome = models.CharField(max_length=100, blank=False)
     sexo = models.CharField(max_length=9, choices=SEX_CHOICES)
     cpf = models.CharField(max_length=14, unique=True, validators=[
@@ -99,21 +101,23 @@ class Funcionario(models.Model):
     ])
     criado = models.DateTimeField(auto_now_add=True)
     telefone_celular = models.CharField(max_length=15, validators=[
-        RegexValidator(regex=r'^\(\d{2}\)\d{5}-\d{4}$', message='Telefone celular deve estar no formato (99)99999-9999')
-    ])
+    RegexValidator(regex=r'^\(\d{2}\)\s?\d{5}-\d{4}$', message='Telefone celular deve estar no formato (99)99999-9999')
+])
+
     telefone_fixo = models.CharField(max_length=14, validators=[
         RegexValidator(regex=r'^\(\d{2}\)\d{4}-\d{4}$', message='Telefone fixo deve estar no formato (99)9999-9999')
     ], blank=True)
     email = models.EmailField(unique=True)
     data_nascimento = models.DateField(null=True, blank=True)
     cargo = models.ForeignKey('Cargo', on_delete=models.SET_NULL, null=True)
+    escolaridade = models.ForeignKey('Escolaridade', on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.nome
 
 
 class Cargo(models.Model):
-    id = models.AutoField(primary_key=True) 
+    id = models.AutoField(primary_key=True)
     nome = models.CharField(max_length=100)
 
     def __str__(self):
@@ -121,7 +125,7 @@ class Cargo(models.Model):
 
 
 class Escolaridade(models.Model):
-    id = models.AutoField(primary_key=True) 
+    id = models.AutoField(primary_key=True)
     nome = models.CharField(max_length=100)
 
     def __str__(self):
@@ -129,7 +133,7 @@ class Escolaridade(models.Model):
 
 
 class OrdemServico(models.Model):
-    id = models.AutoField(primary_key=True) 
+    id = models.AutoField(primary_key=True)
     tecnico = models.ForeignKey(Funcionario, on_delete=models.CASCADE)
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     descricao_problema = models.TextField()
@@ -141,14 +145,13 @@ class OrdemServico(models.Model):
 
 
 class ItemOrdemServico(models.Model):
-    id = models.AutoField(primary_key=True) 
+    id = models.AutoField(primary_key=True)
     ordem_servico = models.ForeignKey(OrdemServico, on_delete=models.CASCADE, related_name='itens')
     produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
     quantidade = models.PositiveIntegerField()
     valor_total_item = models.DecimalField(max_digits=10, decimal_places=2)
 
     def save(self, *args, **kwargs):
-        # Reduzir a quantidade do produto no estoque ao salvar o item da ordem de serviço
         if self.pk is None:
             self.produto.quantidade_estoque -= self.quantidade
             self.produto.save()
@@ -159,7 +162,7 @@ class ItemOrdemServico(models.Model):
 
 
 class ContaReceber(models.Model):
-    id = models.AutoField(primary_key=True) 
+    id = models.AutoField(primary_key=True)
     ordem_servico = models.ForeignKey(OrdemServico, on_delete=models.CASCADE)
     valor = models.DecimalField(max_digits=10, decimal_places=2)
 
@@ -168,7 +171,7 @@ class ContaReceber(models.Model):
 
 
 class Empresa(models.Model):
-    id = models.AutoField(primary_key=True) 
+    id = models.AutoField(primary_key=True)
     nome = models.CharField(max_length=255)
     cnpj = models.CharField(max_length=18, unique=True, validators=[
         RegexValidator(regex=r'^\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}$', message='CNPJ deve estar no formato 99.999.999/9999-99')
@@ -181,8 +184,9 @@ class Empresa(models.Model):
     ])
     criado = models.DateTimeField(auto_now_add=True)
     telefone_celular = models.CharField(max_length=15, validators=[
-        RegexValidator(regex=r'^\(\d{2}\)\d{5}-\d{4}$', message='Telefone celular deve estar no formato (99)99999-9999')
-    ])
+    RegexValidator(regex=r'^\(\d{2}\)\s?\d{5}-\d{4}$', message='Telefone celular deve estar no formato (99)99999-9999')
+])
+
     telefone_fixo = models.CharField(max_length=14, validators=[
         RegexValidator(regex=r'^\(\d{2}\)\d{4}-\d{4}$', message='Telefone fixo deve estar no formato (99)9999-9999')
     ], blank=True)
